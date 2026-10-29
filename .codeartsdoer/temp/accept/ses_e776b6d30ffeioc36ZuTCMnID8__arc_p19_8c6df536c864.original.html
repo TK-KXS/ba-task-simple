@@ -1,0 +1,24 @@
+<!-- ============ 14 RISKS ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>14 &nbsp;Risks &amp; Mitigations</h2>
+  <table>
+    <tr><th style="width:10mm">R#</th><th style="width:46mm">Risk</th><th style="width:16mm">L / I</th><th>Mitigation (architecture / process)</th><th style="width:22mm">Owner</th></tr>
+    <tr><td class="id">R-01</td><td>Approval-model conflict (&lt;500 auto vs Finance) unresolved.</td><td>H / H</td><td>Blocking OI-01. Model as configurable DMN (ADR-08), ship OFF; gate design freeze on decision. <b>OI-01</b></td><td>K.Somchai/K.Pim</td></tr>
+    <tr><td class="id">R-02</td><td>Return-window policy unknown (7/14/30, per category).</td><td>H / M</td><td>Configurable category windows in BRL-001; eligibility rule data-driven; pending policy doc. <b>OI-02</b></td><td>K.Nok</td></tr>
+    <tr><td class="id">R-03</td><td>Phase-1 Must scope may exceed 8M THB budget.</td><td>H / H</td><td>Phased Option A (pilot 10 stores + core Must); CR for extras. <b>OI-11</b></td><td>K.Somchai/K.Pim</td></tr>
+    <tr><td class="id">R-04</td><td>Fixed go-live before 11 Nov 2027 collides with 11.11 peak + open integrations.</td><td>M / H</td><td>Pilot-first + phased rollout; hard decision gate early Nov 2026; load-test before peak.</td><td>Steering</td></tr>
+    <tr><td class="id">R-05</td><td>POS vendor unknown (RetailPro/in-house); interface unclear.</td><td>H / M</td><td>Discovery before fixed price; TK-Connect adapter; manual order-search fallback. <b>OI-08</b></td><td>K.Arthit</td></tr>
+    <tr><td class="id">R-06</td><td>AD/SSO availability unconfirmed.</td><td>M / L</td><td>TK-Auth SAML/LDAP if available; local accounts + MFA fallback. <b>OI-07</b></td><td>K.Arthit</td></tr>
+    <tr><td class="id">R-07</td><td>SAP RFC stability / availability (AS-11).</td><td>M / H</td><td>TK-Connect adapter with retry+DLQ; daily reconciliation; sandbox test early.</td><td>K.Arthit</td></tr>
+    <tr><td class="id">R-08</td><td>Data migration (RETURN_MASTER) underestimated.</td><td>M / M</td><td>Cap at 1 year fixed field set; cleansing effort budgeted. <b>OI-12</b></td><td>K.Arthit/K.Pim</td></tr>
+    <tr><td class="id">R-09</td><td>PDPA non-compliance (customer data / photos).</td><td>M / H</td><td>Classification + encryption + masking + retention/deletion job + ROPA + DPA; DSAR workflow. <b>NFR-PRIV-01</b></td><td>K.Arthit/TK</td></tr>
+    <tr><td class="id">R-10</td><td>11.11/12.12 peak overloads the platform.</td><td>M / H</td><td>TK-Queue burst buffer; HPA autoscale; provisioned to ~5,000/day; pre-peak load test. <b>NFR-SCAL-01</b></td><td>TK</td></tr>
+    <tr><td class="id">R-11</td><td>SMS/messaging recurring cost overrun at scale.</td><td>M / M</td><td>Per-message cost budgeted; customer channel preference; optional caps. <b>ADR-05</b></td><td>TK</td></tr>
+    <tr><td class="id">R-12</td><td>Fraud false positives create customer friction.</td><td>M / L</td><td>Configurable thresholds + human CS review (never auto-reject). <b>BRL-007</b></td><td>K.Somchai</td></tr>
+    <tr><td class="id">R-13</td><td>Duplicate refund posting.</td><td>L / H</td><td>Idempotency key + duplicate rejection + daily reconciliation. <b>BRL-014/TR-REF-03</b></td><td>K.Pim</td></tr>
+    <tr><td class="id">R-14</td><td>Single-region outage.</td><td>L / H</td><td>Warm-standby DR; async replication; RTO 4h / RPO 1h; tested restore. <b>NFR-AVAIL-01</b></td><td>TK</td></tr>
+  </table>
+  <p class="small">L/I = Likelihood / Impact (H/M/L). Blocking customer decisions (OI-01, OI-02, OI-11) are called out on the sign-off page.</p>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 24 of 25</span></div>
+</section>

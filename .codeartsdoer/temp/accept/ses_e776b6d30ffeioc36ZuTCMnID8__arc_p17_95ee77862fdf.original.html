@@ -1,0 +1,22 @@
+<!-- ============ 13 NFR MAPPING ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>13 &nbsp;NFR Mapping</h2>
+  <p>Each non-functional requirement from the requirements package is answered by a concrete architectural mechanism and component.</p>
+  <table>
+    <tr><th style="width:24mm">NFR</th><th style="width:38mm">Requirement (from REQ)</th><th>Architectural response</th><th style="width:34mm">Component</th></tr>
+    <tr><td class="id">NFR-PERF-01</td><td>p95 load 2s; API 500ms; scan lookup 2s.</td><td>CDN-fronted portal; gateway caching; indexed order lookup; async offload of non-blocking work to TK-Queue.</td><td>TK-Gateway, return-svc, TK-Queue</td></tr>
+    <tr><td class="id">NFR-SCAL-01</td><td>4-5x peak; ~4,200/day, headroom to 6x.</td><td>HPA autoscale 3..12 per service; Kafka buffers bursts; provisioned to ~5,000/day (x1.5).</td><td>TK-Cloud, TK-Queue</td></tr>
+    <tr><td class="id">NFR-AVAIL-01</td><td>99.5% monthly; RTO 4h; RPO 1h.</td><td>Multi-AZ data tier; warm-standby DR; async replication; tested backups.</td><td>TK-Cloud, TK-Database, TK-Storage</td></tr>
+    <tr><td class="id">NFR-SEC-01</td><td>RBAC; TLS1.2+; AES-256; SSO via AD; least privilege.</td><td>TK-Auth RBAC + branch scoping + MFA; TLS everywhere; encryption keys in TK-Vault; least-privilege roles per service.</td><td>TK-Auth, TK-Vault, TK-Gateway</td></tr>
+    <tr><td class="id">NFR-PRIV-01</td><td>PDPA: consent, masking, retention, erasure.</td><td>Classified entities (section 10); encryption + masking; retention + deletion job; ROPA + DPA; DSAR workflow.</td><td>TK-Database, TK-Storage, admin-svc</td></tr>
+    <tr><td class="id">NFR-AUDIT-01</td><td>Immutable audit of approvals/refunds/dispositions/config; 7 yrs; tamper-evident.</td><td>Append-only audit log written on every transition; hash-chained; 7-yr retention; TK-Vault signing.</td><td>AuditLog, TK-Database, TK-Vault</td></tr>
+    <tr><td class="id">NFR-USA-01</td><td>Core task &lt;=5 taps / 30s; large targets; WCAG 2.1 AA.</td><td>Tablet UI with barcode scan + prefilled order (TR-STORE-04); &ge;44px targets; accessible portal.</td><td>Store Tablet App, HQ Console</td></tr>
+    <tr><td class="id">NFR-LOC-01</td><td>Full TH/EN UI, notifications, reports; Sarabun; THB.</td><td>i18n resource bundles; TH/EN templates in TK-Notify; Thai date/currency formatting.</td><td>All channels, TK-Notify</td></tr>
+    <tr><td class="id">NFR-DATA-01</td><td>7-yr retention (AS-03); 1-yr Excel migration.</td><td>Retention policy on TK-Database/TK-Storage; cold tier 90d; one-off migration job (OI-12).</td><td>TK-Database, TK-Storage, admin-svc</td></tr>
+    <tr><td class="id">NFR-SUPP-01</td><td>TK-hosted &amp; managed (SaaS) + MA.</td><td>Fully managed on TK-Cloud; TK-Monitor alerting; runbooks and SLA on offer.</td><td>TK-Cloud, TK-Monitor</td></tr>
+    <tr><td class="id">NFR-DEV-01</td><td>Chrome/Edge/Safari latest 2; Android/iPad; LINE in-app.</td><td>Responsive web; PWA-capable; tested on tablet and LINE in-app browser.</td><td>Channel apps</td></tr>
+  </table>
+  <div class="note"><strong>Availability tier.</strong> Customer/money flows (T1) are targeted at 99.5% with RTO 4h / RPO 1h per NFR-AVAIL-01; if the customer later wants the higher 99.9% / RTO 1h / RPO 15min tier, that is a separate design option and cost. Observability in TK-Monitor is a go-live gate.</div>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 22 of 25</span></div>
+</section>

@@ -1,0 +1,59 @@
+<!-- ============ 9 STATE MODEL D6 (portrait) ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>9 &nbsp;Status Model (D6)</h2>
+  <p>The return case has one authoritative status machine (mirrors FS section 9.0). Two parallel sub-flows run at item level (disposition) and refund level (SAP posting). Every transition is emitted as an event and written to the immutable audit log.</p>
+  <svg class="dgsvg" viewBox="0 0 720 500" role="img" aria-label="Return case state model">
+    <defs><marker id="ah7" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6475"/></marker>
+    <marker id="ah7d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a5a00"/></marker></defs>
+    <rect class="box" x="30" y="46" width="130" height="42" rx="8"/><text class="ts" x="95" y="72" text-anchor="middle">DRAFT</text>
+    <rect class="box" x="190" y="46" width="130" height="42" rx="8"/><text class="ts" x="255" y="72" text-anchor="middle">SUBMITTED</text>
+    <rect class="box" x="350" y="46" width="130" height="42" rx="8"/><text class="ts" x="415" y="72" text-anchor="middle">IN_REVIEW</text>
+    <rect class="box" x="540" y="46" width="140" height="42" rx="8"/><text class="ts" x="610" y="72" text-anchor="middle">APPROVED</text>
+    <rect class="box2" x="30" y="150" width="130" height="42" rx="8"/><text class="ts" x="95" y="176" text-anchor="middle">CANCELLED</text>
+    <rect class="ext" x="190" y="150" width="130" height="42" rx="8"/><text class="ts" x="255" y="176" text-anchor="middle">FRAUD_HOLD</text>
+    <rect class="box2" x="350" y="150" width="130" height="42" rx="8"/><text class="ts" x="415" y="176" text-anchor="middle">REJECTED</text>
+    <rect class="box" x="540" y="150" width="140" height="42" rx="8"/><text class="ts" x="610" y="176" text-anchor="middle">REFUND_PENDING</text>
+    <rect class="ext" x="540" y="248" width="140" height="42" rx="8"/><text class="ts" x="610" y="274" text-anchor="middle">POST_FAILED</text>
+    <rect class="box" x="540" y="340" width="140" height="42" rx="8"/><text class="ts" x="610" y="366" text-anchor="middle">REFUNDED</text>
+    <rect class="box2" x="540" y="432" width="140" height="42" rx="8"/><text class="ts" x="610" y="458" text-anchor="middle">CLOSED</text>
+    <line class="ar" x1="160" y1="67" x2="188" y2="67" marker-end="url(#ah7)"/>
+    <line class="ar" x1="320" y1="67" x2="348" y2="67" marker-end="url(#ah7)"/>
+    <line class="ar" x1="480" y1="67" x2="538" y2="67" marker-end="url(#ah7)"/>
+    <line class="ar" x1="95" y1="88" x2="95" y2="148" marker-end="url(#ah7)"/>
+    <line class="ar" x1="400" y1="88" x2="300" y2="148" marker-end="url(#ah7)"/>
+    <line class="ar" x1="430" y1="88" x2="418" y2="148" marker-end="url(#ah7)"/>
+    <line class="ard" x1="300" y1="150" x2="398" y2="90" marker-end="url(#ah7d)"/>
+    <line class="ar" x1="610" y1="88" x2="610" y2="148" marker-end="url(#ah7)"/>
+    <line class="ar" x1="610" y1="192" x2="610" y2="246" marker-end="url(#ah7)"/>
+    <line class="ar" x1="650" y1="192" x2="650" y2="338" marker-end="url(#ah7)"/>
+    <line class="ard" x1="560" y1="248" x2="560" y2="194" marker-end="url(#ah7d)"/>
+    <line class="ar" x1="610" y1="382" x2="610" y2="430" marker-end="url(#ah7)"/>
+    <polyline class="ard" points="415,192 415,453 538,453" marker-end="url(#ah7d)"/>
+    <rect x="30" y="230" width="470" height="210" rx="8" fill="#fbfcfe" stroke="#c9ced8"/>
+    <text class="ts" x="44" y="256" style="font-weight:700" fill="#0b3d91">Parallel sub-flows</text>
+    <text class="ts" x="44" y="284" style="font-weight:700">Item disposition (per ReturnItem)</text>
+    <text class="ts" x="44" y="306">PENDING_DISPOSITION -&gt; RESTOCKED | RETURNED_SUPPLIER | WRITTEN_OFF</text>
+    <text class="ts" x="44" y="338" style="font-weight:700">Refund posting (per Refund)</text>
+    <text class="ts" x="44" y="360">PENDING_SAP -&gt; POSTED | POST_FAILED (retry / reconcile)</text>
+    <text class="ts" x="44" y="392" style="font-weight:700">Audit</text>
+    <text class="ts" x="44" y="414">Every transition writes an immutable audit row (NFR-AUDIT-01).</text>
+    <text class="conf-lbl" x="708" y="486" text-anchor="end">TK CONFIDENTIAL</text>
+  </svg>
+  <h3>9.1 &nbsp;Transition table (guards and events)</h3>
+  <table>
+    <tr><th style="width:34mm">From -> To</th><th>Trigger / guard</th><th style="width:40mm">Rule / trace</th></tr>
+    <tr><td class="id">DRAFT -> SUBMITTED</td><td>Customer or staff submits with reason + &ge;1 photo.</td><td>BRL-008, TR-RET-03</td></tr>
+    <tr><td class="id">SUBMITTED -> IN_REVIEW</td><td>Eligibility passing; case enters approval queue.</td><td>BRL-001, TR-RET-02</td></tr>
+    <tr><td class="id">IN_REVIEW -> APPROVED</td><td>Approver approves within role authority; audit row written.</td><td>BRL-003/004, TR-APPR-04</td></tr>
+    <tr><td class="id">IN_REVIEW -> REJECTED</td><td>Approver rejects with reason code.</td><td>TR-APPR-01</td></tr>
+    <tr><td class="id">IN_REVIEW -> FRAUD_HOLD</td><td>Customer over fraud threshold.</td><td>BRL-007, TR-FRAUD-01</td></tr>
+    <tr><td class="id">FRAUD_HOLD -> IN_REVIEW / REJECTED</td><td>CS clears or escalates after review.</td><td>BRL-007</td></tr>
+    <tr><td class="id">APPROVED -> REFUND_PENDING</td><td>Refund queued for SAP / payment.</td><td>BRL-011</td></tr>
+    <tr><td class="id">REFUND_PENDING -> REFUNDED</td><td>SAP + payment confirm.</td><td>TR-REF-01/02</td></tr>
+    <tr><td class="id">REFUND_PENDING -> POST_FAILED</td><td>SAP/payment error; retried, escalated to reconciliation.</td><td>TR-REF-04, BRL-014</td></tr>
+    <tr><td class="id">REFUNDED -> CLOSED</td><td>All item dispositions set.</td><td>BRL-009, TR-INV-01</td></tr>
+    <tr><td class="id">pre-approval -> CANCELLED</td><td>Customer or staff cancels before approval.</td><td>FS-RET-01</td></tr>
+  </table>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 16 of 25</span></div>
+</section>

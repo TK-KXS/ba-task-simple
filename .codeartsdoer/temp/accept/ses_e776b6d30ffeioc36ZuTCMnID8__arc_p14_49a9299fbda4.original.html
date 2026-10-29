@@ -1,0 +1,35 @@
+<!-- ============ 11 DEPLOYMENT D8 (landscape) ============ -->
+<section class="page landscape">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2 style="margin-bottom:1.5mm">11 &nbsp;Deployment &amp; Availability (D8) - Bangkok primary + DR</h2>
+  <svg class="dgsvg" viewBox="0 0 1000 500" role="img" aria-label="Deployment topology Bangkok and DR">
+    <defs><marker id="ah9" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6475"/></marker>
+    <marker id="ah9d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a5a00"/></marker></defs>
+    <rect x="14" y="44" width="620" height="330" rx="10" fill="#fbfcfe" stroke="#0b3d91" stroke-dasharray="6 4"/>
+    <text x="26" y="62" class="tlen" fill="#0b3d91" style="font-weight:700">Bangkok - primary (active) - Kubernetes, TK-managed</text>
+    <rect class="tk" x="30" y="76" width="180" height="42" rx="6"/><text class="ts" x="120" y="102" text-anchor="middle">Ingress / Load Balancer</text>
+    <rect class="tk" x="230" y="76" width="180" height="42" rx="6"/><text class="ts" x="320" y="95" text-anchor="middle">TK-Gateway</text><text class="tlen" x="320" y="112" text-anchor="middle">x N (HPA)</text>
+    <rect class="tk" x="430" y="76" width="190" height="88" rx="6"/><text class="ts" x="525" y="100" text-anchor="middle">Domain service pods</text><text class="tlen" x="525" y="120" text-anchor="middle">tk-smr-*-svc</text><text class="tlen" x="525" y="140" text-anchor="middle">HPA 3..12 per service</text>
+    <rect class="tk" x="30" y="182" width="180" height="46" rx="6"/><text class="ts" x="120" y="210" text-anchor="middle">TK-Database primary (Multi-AZ)</text>
+    <rect class="tk" x="230" y="182" width="180" height="46" rx="6"/><text class="ts" x="320" y="210" text-anchor="middle">TK-Storage (object store)</text>
+    <rect class="tk" x="430" y="182" width="190" height="46" rx="6"/><text class="ts" x="525" y="210" text-anchor="middle">TK-Queue Kafka (3 brokers)</text>
+    <rect class="tk" x="30" y="252" width="280" height="42" rx="6"/><text class="ts" x="170" y="278" text-anchor="middle">TK-Flow · TK-Connect · TK-Notify</text>
+    <rect class="tk" x="330" y="252" width="290" height="42" rx="6"/><text class="ts" x="475" y="278" text-anchor="middle">TK-Monitor · TK-Vault</text>
+    <text class="tlen" x="440" y="330" text-anchor="middle">Autoscale node pool; peak sized to 4,200 returns/day, headroom to ~5,000/day (x1.5)</text>
+    <rect x="650" y="44" width="336" height="330" rx="10" fill="#fbf4e2" stroke="#8a5a00" stroke-dasharray="6 4"/>
+    <text x="662" y="62" class="tlen" fill="#8a5a00" style="font-weight:700">DR region - warm standby</text>
+    <rect class="ext" x="666" y="80" width="300" height="44" rx="6"/><text class="ts" x="816" y="107" text-anchor="middle">Warm-standby K8s (scaled down)</text>
+    <rect class="ext" x="666" y="150" width="300" height="44" rx="6"/><text class="ts" x="816" y="177" text-anchor="middle">TK-Database read replica</text>
+    <rect class="ext" x="666" y="220" width="300" height="44" rx="6"/><text class="ts" x="816" y="247" text-anchor="middle">TK-Storage object replication</text>
+    <rect class="ext" x="666" y="290" width="300" height="44" rx="6"/><text class="ts" x="816" y="310" text-anchor="middle">TK-Queue mirror · TK-Vault replica</text><text class="tlen" x="816" y="327" text-anchor="middle">promote on DR</text>
+    <line class="ard" x1="634" y1="205" x2="664" y2="172" marker-end="url(#ah9d)"/>
+    <line class="ard" x1="634" y1="240" x2="664" y2="242" marker-end="url(#ah9d)"/>
+    <text class="tlen" x="649" y="150" text-anchor="middle" transform="rotate(-20 649 150)" fill="#8a5a00">async replication</text>
+    <text class="legend" x="14" y="402">Availability target (NFR-AVAIL-01): 99.5% monthly (business-hours weighted), RTO &lt;= 4h, RPO &lt;= 1h. Cross-region async replication (CDR + backups + object replication).</text>
+    <text class="legend" x="14" y="428">Money-path databases are Multi-AZ; TK-Queue absorbs 11.11/12.12 bursts; TK-Monitor + alerting required before go-live. TK hosts and manages (NFR-SUPP-01); SiamMart IT has only 4 staff.</text>
+    <text class="legend" x="14" y="454">Backups: encrypted, daily full + point-in-time; restore tested quarterly. Secrets/keys held in TK-Vault. All access least-privilege via TK-Auth.</text>
+    <text class="conf-lbl" x="990" y="486" text-anchor="end">TK CONFIDENTIAL</text>
+  </svg>
+  <p class="small" style="margin-top:1mm">Peak sizing (NFR-SCAL-01, AS-01): baseline 25,000 returns/month (~833/day); 11.11/12.12 peak 4-5x, provisioned to ~4,200/day with headroom x1.5 (~5,000/day, ~6x baseline). TK-Queue buffers bursts; autoscaling on the domain-service and gateway node pools.</p>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 19 of 25</span></div>
+</section>

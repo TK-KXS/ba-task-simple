@@ -1,0 +1,3 @@
+tk-ba-requirements=true
+tk-solution-architecture=true
+tk-doc-a4-confidential=true

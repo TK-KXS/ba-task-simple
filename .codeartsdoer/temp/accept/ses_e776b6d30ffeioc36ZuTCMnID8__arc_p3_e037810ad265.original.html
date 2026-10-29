@@ -1,0 +1,107 @@
+<!-- ============ D1 AS-IS SWIMLANE (landscape) ============ -->
+<section class="page landscape">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <h2 style="margin-bottom:1.5mm">2.1 &nbsp;D1 — As-Is Return &amp; Refund Swimlane</h2>
+  <svg class="dgsvg" viewBox="0 0 1000 560" role="img" aria-label="As-Is return and refund swimlane">
+    <defs><marker id="ah1" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6475"/></marker>
+    <marker id="ah1d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a5a00"/></marker></defs>
+    <text x="10" y="26" class="tl">As-Is: paper / Excel / LINE group / weekly manual SAP — ~14-day refund, no system of record</text>
+
+    <!-- lane backgrounds -->
+    <rect class="lane" x="104" y="46" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="140" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="234" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="328" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="422" width="888" height="86" rx="4"/>
+    <!-- lane labels -->
+    <rect class="lanelbl" x="8" y="46" width="92" height="94" rx="4"/>
+    <text x="54" y="88" class="tm lbl" text-anchor="middle">Customer</text>
+    <text x="54" y="106" class="ts" text-anchor="middle" fill="#5b6475">shopper</text>
+    <rect class="lanelbl" x="8" y="140" width="92" height="94" rx="4"/>
+    <text x="54" y="182" class="tm lbl" text-anchor="middle">Store</text>
+    <text x="54" y="200" class="ts" text-anchor="middle" fill="#5b6475">staff</text>
+    <rect class="lanelbl" x="8" y="234" width="92" height="94" rx="4"/>
+    <text x="54" y="281" class="tm lbl" text-anchor="middle">CS (HQ)</text>
+    <rect class="lanelbl" x="8" y="328" width="92" height="94" rx="4"/>
+    <text x="54" y="375" class="tm lbl" text-anchor="middle">Finance</text>
+    <rect class="lanelbl" x="8" y="422" width="92" height="86" rx="4"/>
+    <text x="54" y="464" class="tm lbl" text-anchor="middle">SAP /</text>
+    <text x="54" y="482" class="tm lbl" text-anchor="middle">Systems</text>
+
+    <!-- steps -->
+    <!-- S1 customer -->
+    <rect class="box" x="112" y="68" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="88" text-anchor="middle">Customer returns item at</text>
+    <text class="ts" x="188" y="106" text-anchor="middle">store / emails / chats online</text>
+    <!-- S2 store -->
+    <rect class="box" x="112" y="162" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="182" text-anchor="middle">Staff writes return on</text>
+    <text class="ts" x="188" y="200" text-anchor="middle">paper or Excel; takes photo</text>
+    <!-- S3 store -->
+    <rect class="box" x="322" y="162" width="152" height="50" rx="6"/>
+    <text class="ts" x="398" y="182" text-anchor="middle">Photo posted to LINE</text>
+    <text class="ts" x="398" y="200" text-anchor="middle">group "Return-HQ"</text>
+    <!-- S4 CS -->
+    <rect class="box" x="322" y="256" width="152" height="50" rx="6"/>
+    <text class="ts" x="398" y="276" text-anchor="middle">CS reviews; online orders</text>
+    <text class="ts" x="398" y="294" text-anchor="middle">copied to RETURN_MASTER.xlsx</text>
+    <!-- S5 CS -->
+    <rect class="box" x="532" y="256" width="152" height="50" rx="6"/>
+    <text class="ts" x="608" y="276" text-anchor="middle">CS approves refund</text>
+    <text class="ts" x="608" y="294" text-anchor="middle">informally in LINE chat</text>
+    <!-- S6 finance -->
+    <rect class="box" x="532" y="350" width="152" height="50" rx="6"/>
+    <text class="ts" x="608" y="370" text-anchor="middle">Finance re-keys each refund</text>
+    <text class="ts" x="608" y="388" text-anchor="middle">in SAP (batch, every Friday)</text>
+    <!-- S7 finance -->
+    <rect class="box" x="742" y="350" width="152" height="50" rx="6"/>
+    <text class="ts" x="818" y="370" text-anchor="middle">Refund arrives ~14 days</text>
+    <text class="ts" x="818" y="388" text-anchor="middle">later (range 10–21)</text>
+    <!-- S8 systems -->
+    <rect class="box" x="532" y="440" width="152" height="50" rx="6"/>
+    <text class="ts" x="608" y="460" text-anchor="middle">Manual SAP posting; no</text>
+    <text class="ts" x="608" y="478" text-anchor="middle">reconciliation → duplicate risk</text>
+    <!-- S9 store annotation -->
+    <rect class="box2" x="742" y="162" width="152" height="50" rx="6"/>
+    <text class="ts" x="818" y="182" text-anchor="middle">Returned goods pile behind</text>
+    <text class="ts" x="818" y="200" text-anchor="middle">store — no disposition</text>
+    <!-- S10 customer annotation -->
+    <rect class="box2" x="742" y="68" width="152" height="50" rx="6"/>
+    <text class="ts" x="818" y="88" text-anchor="middle">Customer chases status →</text>
+    <text class="ts" x="818" y="106" text-anchor="middle">#1 social complaint</text>
+    <!-- P6 P7 callout in finance lane -->
+    <rect class="box2" x="112" y="350" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="370" text-anchor="middle">No fraud flags · no</text>
+    <text class="ts" x="188" y="388" text-anchor="middle">management reporting</text>
+
+    <!-- arrows -->
+    <line class="ar" x1="150" y1="118" x2="150" y2="158" marker-end="url(#ah1)"/>
+    <line class="ar" x1="264" y1="187" x2="318" y2="187" marker-end="url(#ah1)"/>
+    <line class="ar" x1="360" y1="212" x2="360" y2="252" marker-end="url(#ah1)"/>
+    <line class="ar" x1="474" y1="281" x2="528" y2="281" marker-end="url(#ah1)"/>
+    <line class="ar" x1="560" y1="306" x2="560" y2="346" marker-end="url(#ah1)"/>
+    <line class="ar" x1="684" y1="375" x2="738" y2="375" marker-end="url(#ah1)"/>
+    <line class="ar" x1="560" y1="400" x2="560" y2="436" marker-end="url(#ah1)"/>
+    <!-- dashed: refund waits then customer chases (right edge) -->
+    <polyline class="ard" points="894,375 968,375 968,93 898,93" marker-end="url(#ah1d)"/>
+    <text class="tlen" x="972" y="236" text-anchor="middle" transform="rotate(90 972 236)" fill="#8a5a00">wait / chase</text>
+    <!-- dashed: goods + complaints -->
+    <line class="ard" x1="818" y1="162" x2="818" y2="122" marker-end="url(#ah1d)"/>
+
+    <!-- pain badges -->
+    <circle class="pain" cx="246" cy="177" r="12"/><text class="ptext" x="246" y="182" text-anchor="middle">P1</text>
+    <circle class="pain" cx="666" cy="271" r="12"/><text class="ptext" x="666" y="276" text-anchor="middle">P2</text>
+    <circle class="pain" cx="666" cy="365" r="12"/><text class="ptext" x="666" y="370" text-anchor="middle">P3</text>
+    <circle class="pain" cx="884" cy="83" r="12"/><text class="ptext" x="884" y="88" text-anchor="middle">P4</text>
+    <circle class="pain" cx="884" cy="177" r="12"/><text class="ptext" x="884" y="182" text-anchor="middle">P5</text>
+    <circle class="pain" cx="666" cy="455" r="12"/><text class="ptext" x="666" y="460" text-anchor="middle">P8</text>
+    <circle class="pain" cx="250" cy="365" r="11"/><text class="ptext" x="250" y="370" text-anchor="middle" style="font-size:12px">P6</text>
+    <circle class="pain" cx="224" cy="365" r="11"/><text class="ptext" x="224" y="370" text-anchor="middle" style="font-size:12px">P7</text>
+
+    <!-- legend + confidential -->
+    <text class="legend" x="10" y="528">Legend: solid arrow = manual handoff · dashed = wait / downstream effect · P# = pain point (§3) · every seam between lanes is a manual, untracked transfer.</text>
+    <text class="conf-lbl" x="990" y="548" text-anchor="end">TK CONFIDENTIAL</text>
+  </svg>
+  <p class="small" style="margin-top:1mm">Note: 5 actors, 5 disconnected tools, zero system of record. The Friday SAP batch is the single largest contributor to the ~14-day lead time (P3). Returned-goods disposition is entirely absent (P5).</p>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 6 of 25</span></div>
+</section>

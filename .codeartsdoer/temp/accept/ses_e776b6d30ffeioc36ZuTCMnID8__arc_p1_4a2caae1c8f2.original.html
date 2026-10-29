@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SiamMart Returns – Solution Architecture &amp; Workflow Pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  @page landscape { size: A4 landscape; }
+  :root { --ink:#1b2333; --accent:#0b3d91; --line:#c9ced8; --muted:#5b6475; --soft:#eef1f6; --red:#a40000; --green:#0a6b2e; --amber:#8a5a00; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#e9ebef; font-family:'Sarabun','IBM Plex Sans',sans-serif; color:var(--ink); font-size:10.5pt; line-height:1.31; }
+  .page { width:210mm; height:297mm; padding:22mm 18mm 20mm; margin:8mm auto; background:#fff;
+          position:relative; overflow:hidden; box-shadow:0 1px 5px rgba(0,0,0,.16); page-break-after:always; }
+  .page.landscape { width:297mm; height:210mm; page:landscape; }
+  .page::before { content:"TK CONFIDENTIAL"; position:absolute; top:48%; left:50%; transform:translate(-50%,-50%) rotate(-30deg);
+          font-size:54pt; font-weight:700; color:#1b2333; opacity:.033; letter-spacing:.15em; pointer-events:none; white-space:nowrap; }
+  .page-header, .page-footer { position:absolute; left:18mm; right:18mm; font-size:8pt; color:var(--muted);
+          display:flex; justify-content:space-between; }
+  .page-header { top:9mm; border-bottom:1px solid var(--line); padding-bottom:1.6mm; }
+  .page-footer { bottom:9mm; border-top:1px solid var(--line); padding-top:1.6mm; }
+  .confidential { color:var(--red); font-weight:700; letter-spacing:.05em; }
+  h1 { font-size:20pt; margin:0 0 4mm; color:var(--accent); }
+  h2 { font-size:13.5pt; margin:0 0 2.6mm; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:1.4mm; }
+  h3 { font-size:11pt; margin:2.6mm 0 1.4mm; color:var(--ink); }
+  h4 { font-size:9.8pt; margin:2.4mm 0 1.2mm; color:var(--accent); }
+  p { margin:0 0 2.2mm; }
+  ul, ol { margin:0 0 2.4mm; padding-left:5mm; }
+  li { margin:0 0 1mm; }
+  table { width:100%; border-collapse:collapse; font-size:8.3pt; margin:1mm 0 2mm; }
+  th, td { border:1px solid var(--line); padding:2.1px 3.2px; vertical-align:top; text-align:left; }
+  th { background:var(--soft); font-weight:600; }
+  tr:nth-child(even) td { background:#fbfcfe; }
+  code, .id { font-family:'IBM Plex Mono',monospace; font-size:8.1pt; color:#0a2e6b; }
+  .tag { display:inline-block; font-size:7.1pt; font-weight:700; padding:0 4px; border-radius:3px; border:1px solid; line-height:1.5; }
+  .must { color:#7a0000; border-color:#c99; background:#fbecec; }
+  .should { color:#5a3d00; border-color:#d6b877; background:#fbf4e2; }
+  .could { color:#0a3d1f; border-color:#9ec3a9; background:#eaf4ee; }
+  .ok { color:var(--green); font-weight:700; }
+  .open { color:var(--amber); font-weight:700; }
+  .conf { color:var(--red); font-weight:700; }
+  .small { font-size:8pt; color:var(--muted); }
+  .note { border-left:3px solid var(--accent); background:#f4f7fc; padding:2.2mm 3mm; margin:1.8mm 0 2.6mm; font-size:8.8pt; }
+  .warn { border-left:3px solid var(--red); background:#fdf1f1; padding:2.2mm 3mm; margin:1.8mm 0 2.6mm; font-size:8.8pt; }
+  .two { display:flex; gap:6mm; } .two > div { flex:1; }
+  .kpis { display:flex; gap:3mm; margin:2mm 0 3mm; }
+  .kpi { flex:1; border:1px solid var(--line); border-top:3px solid var(--accent); border-radius:4px; padding:2.2mm; background:#fafbfe; }
+  .kpi b { display:block; font-size:14pt; color:var(--accent); } .kpi span { font-size:7.8pt; color:var(--muted); }
+  .cover .mark { font-family:'IBM Plex Sans'; font-weight:700; font-size:30pt; color:var(--accent); letter-spacing:.02em; }
+  .cover .rule { height:4px; background:var(--accent); width:60mm; margin:6mm 0 14mm; }
+  .cover h1 { font-size:29pt; line-height:1.12; margin:0 0 6mm; }
+  .cover .meta { font-size:10.5pt; margin:2mm 0; }
+  .cover .meta b { display:inline-block; width:38mm; color:var(--muted); font-weight:600; }
+  .badge { display:inline-block; border:2px solid var(--red); color:var(--red); font-weight:700; padding:2mm 5mm; letter-spacing:.12em; font-size:11pt; margin-top:8mm; }
+  .toc td { border:none; padding:1.3px 2px; background:#fff !important; }
+  .toc .num { width:11mm; color:var(--muted); font-family:'IBM Plex Mono'; }
+  .toc .pg { width:12mm; text-align:right; color:var(--muted); }
+  .pg-note { font-size:7.5pt; color:var(--muted); }
+  /* ---- inline SVG diagram styling (single file, no external CSS) ---- */
+  .dgsvg { width:100%; height:auto; display:block; margin:1mm 0; }
+  .dgsvg text { font-family:'IBM Plex Sans','Sarabun',sans-serif; }
+  .dgsvg .ts { font-size:15px; fill:#1b2333; }
+  .dgsvg .tm { font-size:17px; fill:#1b2333; }
+  .dgsvg .tl { font-size:20px; fill:#0b3d91; font-weight:700; }
+  .dgsvg .tlen { font-size:13px; fill:#5b6475; }
+  .dgsvg .lbl { fill:#0b3d91; font-weight:700; }
+  .dgsvg .box { fill:#f4f7fc; stroke:#0b3d91; stroke-width:1.4; }
+  .dgsvg .box2 { fill:#eef1f6; stroke:#5b6475; stroke-width:1.3; }
+  .dgsvg .tk { fill:#e8f0fb; stroke:#0b3d91; stroke-width:1.5; }
+  .dgsvg .ext { fill:#fbf4e2; stroke:#8a5a00; stroke-width:1.4; }
+  .dgsvg .lane { fill:#f4f7fc; stroke:#c9ced8; stroke-width:1; }
+  .dgsvg .lanelbl { fill:#e8edf6; stroke:#c9ced8; stroke-width:1; }
+  .dgsvg .ar { stroke:#5b6475; stroke-width:1.5; fill:none; }
+  .dgsvg .ard { stroke:#8a5a00; stroke-width:1.4; fill:none; stroke-dasharray:5 4; }
+  .dgsvg .pain { fill:#a40000; }
+  .dgsvg .ptext { fill:#ffffff; font-size:14px; font-weight:700; }
+  .dgsvg .impr { fill:#0a6b2e; }
+  .dgsvg .conf-lbl { fill:#9aa0ab; font-size:13px; font-weight:700; letter-spacing:.1em; }
+  .dgsvg .legend { font-size:13px; fill:#5b6475; }
+  .dgsvg .pd { font-weight:700; }
+  @media print { body { background:#fff; } .page { margin:0; box-shadow:none; } }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page cover">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <div class="mark">TK</div>
+  <div class="rule"></div>
+  <h1>Solution Architecture<br>&amp; Workflow Pack</h1>
+  <div class="meta"><b>Document</b> SiamMart Returns — Solution Architecture &amp; Workflow (Output 3)</div>
+  <div class="meta"><b>Customer</b> SiamMart Co., Ltd. (retail chain, ~120 branches + online)</div>
+  <div class="meta"><b>Project</b> SMR — Unified Returns &amp; Refund Platform (Phase 1)</div>
+  <div class="meta"><b>Document ID</b> <span class="id">TK-SA-SMR-ARC-01</span></div>
+  <div class="meta"><b>Version</b> v1.0 (Draft for review)</div>
+  <div class="meta"><b>Date</b> 30 October 2026</div>
+  <div class="meta"><b>Author</b> TK Company — Solution Architecture (tk-sa)</div>
+  <div class="meta"><b>Traces to</b> Requirements package <span class="id">TK-BA-SMR-REQ-01</span> (v1.0)</div>
+  <div class="badge">CONFIDENTIAL</div>
+  <div style="position:absolute; bottom:20mm; left:18mm; right:18mm;">
+    <p class="small">Prepared by TK Company under pre-sales engagement. This document is confidential and proprietary.
+    Distribution is limited to the SiamMart project steering group and TK delivery team. Do not reproduce or
+    circulate without written consent from TK Company. Diagrams are inline SVG and print to A4.</p>
+  </div>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 1 of 25</span></div>
+</section>
+
+<!-- ============ DOCUMENT CONTROL ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <h2>Document Control</h2>
+  <h3>Version history</h3>
+  <table>
+    <tr><th style="width:16mm">Version</th><th style="width:24mm">Date</th><th>Author</th><th>Change summary</th></tr>
+    <tr><td>v0.1</td><td>28 Oct 2026</td><td>TK SA</td><td>First-cut As-Is/To-Be and component sketch from requirements package.</td></tr>
+    <tr><td>v1.0</td><td>30 Oct 2026</td><td>TK SA</td><td>Complete architecture &amp; workflow pack: As-Is/To-Be, pain analysis, C4 context/container, sequences, state, ERD (PDPA), deployment, ADRs, NFR mapping, risks.</td></tr>
+  </table>
+  <h3>Author, reviewers &amp; approvers</h3>
+  <table>
+    <tr><th style="width:30mm">Role</th><th>Name</th><th style="width:54mm">Responsibility</th><th style="width:38mm">Signature / date</th></tr>
+    <tr><td>Author</td><td>TK Company — Solution Architect</td><td>Authors the architecture &amp; workflow pack</td><td></td></tr>
+    <tr><td>Reviewer (requirements)</td><td>TK Company — Business Analyst</td><td>Traceability to TR/NFR/INT</td><td></td></tr>
+    <tr><td>Reviewer (verification)</td><td>TK Company — Verifier (tk-verify)</td><td>Independent compliance &amp; A4 audit</td><td></td></tr>
+    <tr><td>Approver (customer)</td><td>K.Somchai — Head of Customer Service</td><td>Business sign-off</td><td></td></tr>
+    <tr><td>Approver (customer)</td><td>K.Pim — Finance</td><td>Refund / audit sign-off</td><td></td></tr>
+    <tr><td>Approver (customer IT)</td><td>K.Arthit — IT</td><td>Integration &amp; security sign-off</td><td></td></tr>
+  </table>
+  <h3>Status &amp; relationship to requirements</h3>
+  <p>This is a <strong>v1.0 draft for customer review</strong>. It designs the SiamMart returns solution on the TK platform and traces every element back to the IDs in the requirements package <span class="id">TK-BA-SMR-REQ-01</span> (TR-, NFR-, INT-, BRL-, BR-). Open issues are carried forward unchanged as <span class="id">OI-</span>; they are <strong>not</strong> silently resolved here. Where the requirements raised a conflict, this architecture implements a safe, configurable default and flags the decision gate.</p>
+  <div class="note"><strong>Reading note.</strong> Diagrams use the skill D-numbering D1–D8 (§6–§11 and §2/§4). Every diagram is inline SVG and carries the in-SVG "TK CONFIDENTIAL" label. Wide diagrams are on landscape pages. Fonts in diagrams are ≥ 9pt.</div>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 2 of 25</span></div>
+</section>
+
+<!-- ============ TABLE OF CONTENTS ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <h2>Table of Contents</h2>
+  <table class="toc">
+    <tr><td class="num">1</td><td>Introduction</td><td class="pg">4</td></tr>
+    <tr><td class="num">2</td><td>As-Is Process (D1)</td><td class="pg">5</td></tr>
+    <tr><td class="num">3</td><td>Pain Point Analysis (P1–P8)</td><td class="pg">7</td></tr>
+    <tr><td class="num">4</td><td>To-Be Process (D2) — Improvements I1–I9</td><td class="pg">8</td></tr>
+    <tr><td class="num">5</td><td>As-Is vs To-Be Comparison</td><td class="pg">10</td></tr>
+    <tr><td class="num">6</td><td>System Context — C4 Level 1 (D3)</td><td class="pg">11</td></tr>
+    <tr><td class="num">7</td><td>Solution Architecture — C4 Level 2 Container (D4) &amp; Platform Tools</td><td class="pg">12</td></tr>
+    <tr><td class="num">8</td><td>Integration Sequences (D5a · D5b)</td><td class="pg">14</td></tr>
+    <tr><td class="num">9</td><td>Status Model (D6)</td><td class="pg">16</td></tr>
+    <tr><td class="num">10</td><td>Data Model &amp; PDPA (D7)</td><td class="pg">17</td></tr>
+    <tr><td class="num">11</td><td>Deployment &amp; Availability (D8)</td><td class="pg">19</td></tr>
+    <tr><td class="num">12</td><td>Architecture Decision Records (ADRs)</td><td class="pg">20</td></tr>
+    <tr><td class="num">13</td><td>NFR Mapping &amp; Traceability</td><td class="pg">22</td></tr>
+    <tr><td class="num">14</td><td>Risks &amp; Mitigations</td><td class="pg">24</td></tr>
+    <tr><td class="num">15</td><td>Sign-off</td><td class="pg">25</td></tr>
+  </table>
+  <p class="pg-note">Page numbers refer to the A4 page numbers shown in each footer. Landscape pages carry the same header/footer stamp.</p>
+  <div class="note" style="margin-top:4mm"><strong>Diagram index.</strong> D1 As-Is swimlane (p6) · D2 To-Be swimlane (p9) · D3 System context C4-L1 (p11) · D4 Container C4-L2 (p12) · D5a Refund-to-SAP sequence (p14) · D5b Online-return + DMN sequence (p15) · D6 Return-case state model (p16) · D7 ERD with PDPA classes (p17) · D8 Deployment/Bangkok+DR (p19).</div>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 3 of 25</span></div>
+</section>

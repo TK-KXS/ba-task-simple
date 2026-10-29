@@ -1,0 +1,30 @@
+<!-- ============ 10.2 ENTITY & PDPA CATALOGUE (portrait) ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>10.2 &nbsp;Entity &amp; PDPA Catalogue</h2>
+  <p>Every entity is classified. Personal and Sensitive Personal data is encrypted in transit (TLS 1.2+) and at rest (AES-256), masked in logs/dashboards, and bound by a retention and deletion job.</p>
+  <table>
+    <tr><th style="width:26mm">Entity</th><th style="width:22mm">PDPA class</th><th style="width:40mm">Personal fields / note</th><th>Handling &amp; retention</th></tr>
+    <tr><td class="id">Customer</td><td class="open">Personal</td><td>name, phone, email, PD-consent</td><td>Encrypted; masked in dashboards; full view only CS/Finance. Retain 7 yrs (AS-03/OI-06).</td></tr>
+    <tr><td class="id">Order / OrderLine</td><td>Internal (ref. PII)</td><td>links to customer order history</td><td>Access-controlled; aggregated for analytics; no direct DB link to POS/SAP.</td></tr>
+    <tr><td class="id">ReturnCase</td><td>Internal</td><td>reason, status, refund_total</td><td>Encrypted; system of record; 7 yrs.</td></tr>
+    <tr><td class="id">ReturnItem</td><td>Internal</td><td>condition grade, disposition</td><td>Encrypted; 7 yrs.</td></tr>
+    <tr><td class="id">ReturnPhoto</td><td class="open">Personal</td><td>any people visible in photos</td><td>Encrypted in TK-Storage; access logged; auto-purge at retention end; 7 yrs (AS-03).</td></tr>
+    <tr><td class="id">Refund</td><td class="conf">Sensitive Personal</td><td>card last-4, PromptPay ref</td><td>Never store full PAN; tokenised; masked to last 4; reconciled 7 yrs.</td></tr>
+    <tr><td class="id">Approval</td><td class="conf">Confidential</td><td>approver identity, decision</td><td>Immutable audit row; retained 7 yrs (NFR-AUDIT-01).</td></tr>
+    <tr><td class="id">FraudFlag</td><td class="conf">Sensitive Personal</td><td>derived score, period</td><td>Restricted to CS fraud team; explainable to data subject on request; 7 yrs.</td></tr>
+    <tr><td class="id">NotificationLog</td><td class="open">Personal</td><td>recipient channel + template</td><td>Record every send for audit; masked; 7 yrs.</td></tr>
+    <tr><td class="id">AuditLog</td><td class="conf">Confidential</td><td>actor, action, before/after</td><td>Append-only, tamper-evident; 7 yrs (NFR-AUDIT-01).</td></tr>
+    <tr><td class="id">Master data (ReasonCode, Store, Category, Config)</td><td>Public / Internal</td><td>no personal data</td><td>Config changes audit-logged with before/after (TR-ADMIN-03).</td></tr>
+  </table>
+  <h3>10.3 &nbsp;PDPA controls implemented</h3>
+  <ul>
+    <li><strong>Lawful basis &amp; consent:</strong> consent captured at first data entry; purpose limitation recorded (ROPA maintained by TK as processor).</li>
+    <li><strong>Data-subject rights:</strong> access and erasure request workflow; erasure honoured except where legal/audit retention applies (7 yrs) — with justification logged.</li>
+    <li><strong>Masking:</strong> PII and financial fields masked in logs, dashboards and non-production environments; production access least-privilege via TK-Auth.</li>
+    <li><strong>Retention + deletion job:</strong> scheduled job purges personal data and photos at retention end (default 7 yrs, subject to OI-06); deletes storage objects and database rows, leaving only anonymised audit references.</li>
+    <li><strong>Breach runbook</strong> and Data Processing Agreement between SiamMart (controller) and TK (processor).</li>
+  </ul>
+  <div class="warn"><strong>PDPA caveat (K.Arthit).</strong> Retention period is assumption AS-03 (7 years) pending audit/OI-06 and OI-12 (migration cut-off). The retention job is configurable and must be set to the customer-confirmed value before go-live; photo retention (7 yrs) is one of the customer's explicit concerns.</div>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 18 of 25</span></div>
+</section>

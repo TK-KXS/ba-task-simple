@@ -1,0 +1,36 @@
+<!-- ============ 7.3 PLATFORM TOOLS ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>7.3 &nbsp;TK Platform Tools Used (and why)</h2>
+  <p>Every internal component is a <strong>standard TK platform service</strong>; no bespoke infrastructure and no third-party product sits inside the trust boundary. The only non-TK components are the external systems the customer already owns (SAP, POS, payment, messaging, AD), each with an ADR in section 12.</p>
+  <table>
+    <tr><th style="width:24mm">TK service</th><th>Role in the SMR solution</th><th style="width:42mm">Requirements traced</th></tr>
+    <tr><td class="id">TK-Gateway</td><td>Single entry for all channels; API versioning, rate limiting, WAF, routing to domain services.</td><td>NFR-SEC-01, NFR-PERF-01, TR-STORE-01</td></tr>
+    <tr><td class="id">TK-Auth</td><td>Staff and customer realms, RBAC with branch scoping, MFA, SSO via SiamMart AD, least privilege.</td><td>NFR-SEC-01, TR-ADMIN-02, INT-AD-01</td></tr>
+    <tr><td class="id">TK-Flow</td><td>BPMN approval workflow and DMN rules engine: manager threshold, configurable auto-approve, SLA timers.</td><td>TR-APPR-01..04, BRL-002/003/004, BR-08</td></tr>
+    <tr><td class="id">TK-Queue</td><td>Kafka event bus: decouples services, absorbs 11.11/12.12 bursts, drives async notifications and reconciliation.</td><td>NFR-SCAL-01, TR-NOTIF-01, TR-REF-04</td></tr>
+    <tr><td class="id">TK-Notify</td><td>Email / SMS / LINE / push with TH-EN templates and per-message send log (SMS about 0.35-0.50 THB/msg).</td><td>TR-NOTIF-01..02, INT-SMS/LINE/EMAIL</td></tr>
+    <tr><td class="id">TK-Storage</td><td>Object storage for item photos and documents: signed URLs, access logged, cold tier after 90 days, retention bound.</td><td>TR-RET-03, NFR-PRIV-01, NFR-DATA-01</td></tr>
+    <tr><td class="id">TK-Connect</td><td>Managed integration layer: SAP RFC, POS API/file, payment gateway adapters; retry, exponential backoff, DLQ.</td><td>INT-SAP-01, INT-POS-01, INT-PAY-01</td></tr>
+    <tr><td class="id">TK-DataLake</td><td>BI/analytics built from CDC and events: executive dashboard, fraud analytics, daily refund report.</td><td>TR-DASH-01..04, BR-07</td></tr>
+    <tr><td class="id">TK-Database</td><td>Per-domain encrypted schemas (one schema per service); no cross-schema SQL joins.</td><td>TR-RET/CASE data, NFR-SEC-01</td></tr>
+    <tr><td class="id">TK-Monitor</td><td>Central logs / metrics / trace, correlation-id on every integration call; dashboards for failed messages; alerting before go-live.</td><td>NFR-SUPP-01, NFR-AUDIT-01, INT observability</td></tr>
+    <tr><td class="id">TK-Vault</td><td>Secrets and key management (encryption keys, SAP/POS credentials, signing keys); no secrets in code.</td><td>NFR-SEC-01, NFR-PRIV-01</td></tr>
+    <tr><td class="id">TK-Cloud</td><td>Kubernetes runtime, Bangkok primary plus Disaster Recovery region; autoscale; RTO/RPO targets (section 11).</td><td>NFR-AVAIL-01, NFR-SUPP-01, NFR-SCAL-01</td></tr>
+  </table>
+  <h3>7.4 &nbsp;Service inventory &amp; naming conventions</h3>
+  <table>
+    <tr><th style="width:42mm">Service (name = tk-smr-&lt;domain&gt;-svc)</th><th>Owns (schema)</th><th style="width:34mm">Module / TR</th></tr>
+    <tr><td class="id">tk-smr-return-svc</td><td>Return case lifecycle, eligibility validation, partial return.</td><td>RET, TR-RET-01..06</td></tr>
+    <tr><td class="id">tk-smr-store-svc</td><td>In-store intake, barcode resolve (POS lookup), condition grade.</td><td>STORE, TR-STORE-01..04</td></tr>
+    <tr><td class="id">tk-smr-approval-svc</td><td>Orchestrates TK-Flow DMN, approval queue, audit write.</td><td>APPR, TR-APPR-01..04</td></tr>
+    <tr><td class="id">tk-smr-refund-svc</td><td>Refund posting to SAP via TK-Connect, idempotency, reconciliation.</td><td>REF, TR-REF-01..04</td></tr>
+    <tr><td class="id">tk-smr-inventory-svc</td><td>Item disposition, return-to-DC/supplier documents.</td><td>INV, TR-INV-01..03</td></tr>
+    <tr><td class="id">tk-smr-notify-svc</td><td>Status-change notification orchestration via TK-Notify.</td><td>NOTIF, TR-NOTIF-01..02</td></tr>
+    <tr><td class="id">tk-smr-dashboard-svc</td><td>KPI queries, export; feeds TK-DataLake.</td><td>DASH, TR-DASH-01..04</td></tr>
+    <tr><td class="id">tk-smr-fraud-svc</td><td>Threshold evaluation, fraud list.</td><td>FRAUD, TR-FRAUD-01..02</td></tr>
+    <tr><td class="id">tk-smr-admin-svc</td><td>Master data, users/roles, configurable thresholds, audit-logged.</td><td>ADMIN, TR-ADMIN-01..03</td></tr>
+  </table>
+  <p class="small">Naming: REST APIs <code>/v1/&lt;resource&gt;</code>; events <code>&lt;domain&gt;.&lt;entity&gt;.&lt;past-tense&gt;</code> (e.g. <code>return.case.approved</code>, <code>refund.posting.completed</code>). All IDs and file names in English per TK standards.</p>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential · Do not distribute without written consent</span><span>Page 13 of 25</span></div>
+</section>

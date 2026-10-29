@@ -1,0 +1,114 @@
+<!-- ============ 10 DATA MODEL D7 (landscape) ============ -->
+<section class="page landscape">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2 style="margin-bottom:1.5mm">10 &nbsp;Logical Data Model (D7) - ERD with PDPA classification</h2>
+  <svg class="dgsvg" viewBox="0 0 1000 560" role="img" aria-label="Logical ERD with PDPA classes">
+    <defs><marker id="ah8" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#8c93a1"/></marker></defs>
+    <!-- Row 1 -->
+    <g>
+      <rect x="15" y="52" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M15,58 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0a6b2e"/>
+      <text class="ts" x="22" y="71" fill="#ffffff" style="font-weight:700">Customer</text>
+      <text class="tlen" x="22" y="92">customer_id (PK)</text><text class="tlen" x="22" y="112">name, phone, email</text><text class="tlen" x="22" y="132">pdpa_consent, created_at</text>
+      <text class="tlen" x="22" y="164" fill="#0a6b2e" class="pd">PDPA: Personal</text>
+    </g>
+    <g>
+      <rect x="195" y="52" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M195,58 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0b3d91"/>
+      <text class="ts" x="202" y="71" fill="#ffffff" style="font-weight:700">Order</text>
+      <text class="tlen" x="202" y="92">order_id (PK)</text><text class="tlen" x="202" y="112">channel, store_id</text><text class="tlen" x="202" y="132">total, order_date</text>
+      <text class="tlen" x="202" y="164" fill="#0b3d91" class="pd">PDPA: Internal</text>
+    </g>
+    <g>
+      <rect x="375" y="52" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M375,58 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0b3d91"/>
+      <text class="ts" x="382" y="71" fill="#ffffff" style="font-weight:700">ReturnCase</text>
+      <text class="tlen" x="382" y="92">return_id (PK)</text><text class="tlen" x="382" y="112">customer_id, order_id (FK)</text><text class="tlen" x="382" y="132">status, refund_total, idem_key</text>
+      <text class="tlen" x="382" y="164" fill="#0b3d91" class="pd">PDPA: Internal</text>
+    </g>
+    <g>
+      <rect x="555" y="52" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M555,58 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0b3d91"/>
+      <text class="ts" x="562" y="71" fill="#ffffff" style="font-weight:700">ReturnItem</text>
+      <text class="tlen" x="562" y="92">item_id (PK)</text><text class="tlen" x="562" y="112">return_id, line_id (FK)</text><text class="tlen" x="562" y="132">condition_grade, disposition</text>
+      <text class="tlen" x="562" y="164" fill="#0b3d91" class="pd">PDPA: Internal</text>
+    </g>
+    <g>
+      <rect x="735" y="52" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M735,58 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0a6b2e"/>
+      <text class="ts" x="742" y="71" fill="#ffffff" style="font-weight:700">ReturnPhoto</text>
+      <text class="tlen" x="742" y="92">photo_id (PK)</text><text class="tlen" x="742" y="112">item_id (FK)</text><text class="tlen" x="742" y="132">storage_ref, retention_until</text>
+      <text class="tlen" x="742" y="164" fill="#0a6b2e" class="pd">PDPA: Personal</text>
+    </g>
+    <g>
+      <rect x="915" y="52" width="80" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M915,58 a6,6 0 0 1 6,-6 h68 a6,6 0 0 1 6,6 v20 h-80 z" fill="#0b3d91"/>
+      <text class="tlen" x="922" y="71" fill="#ffffff" style="font-weight:700">Disposition</text>
+      <text class="tlen" x="922" y="92">disp_id (PK)</text><text class="tlen" x="922" y="112">item_id (FK)</text><text class="tlen" x="922" y="132">type, status</text>
+      <text class="tlen" x="922" y="164" fill="#0b3d91" class="pd">Internal</text>
+    </g>
+    <!-- Row 2 -->
+    <g>
+      <rect x="15" y="300" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M15,306 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0b3d91"/>
+      <text class="ts" x="22" y="319" fill="#ffffff" style="font-weight:700">OrderLine</text>
+      <text class="tlen" x="22" y="340">line_id (PK)</text><text class="tlen" x="22" y="360">order_id (FK), sku</text><text class="tlen" x="22" y="380">price, qty</text>
+      <text class="tlen" x="22" y="412" fill="#0b3d91" class="pd">PDPA: Internal</text>
+    </g>
+    <g>
+      <rect x="195" y="300" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M195,306 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#b35c00"/>
+      <text class="ts" x="202" y="319" fill="#ffffff" style="font-weight:700">Refund</text>
+      <text class="tlen" x="202" y="340">refund_id (PK)</text><text class="tlen" x="202" y="360">return_id (FK), amount</text><text class="tlen" x="202" y="380">channel, sap_ref, status</text>
+      <text class="tlen" x="202" y="412" fill="#b35c00" class="pd">Sensitive Personal</text>
+    </g>
+    <g>
+      <rect x="375" y="300" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M375,306 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#7a0000"/>
+      <text class="ts" x="382" y="319" fill="#ffffff" style="font-weight:700">Approval</text>
+      <text class="tlen" x="382" y="340">approval_id (PK)</text><text class="tlen" x="382" y="360">return_id (FK), approver</text><text class="tlen" x="382" y="380">decision, reason, ts</text>
+      <text class="tlen" x="382" y="412" fill="#7a0000" class="pd">Confidential</text>
+    </g>
+    <g>
+      <rect x="555" y="300" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M555,306 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#b35c00"/>
+      <text class="ts" x="562" y="319" fill="#ffffff" style="font-weight:700">FraudFlag</text>
+      <text class="tlen" x="562" y="340">flag_id (PK)</text><text class="tlen" x="562" y="360">customer_id (FK)</text><text class="tlen" x="562" y="380">score, rule_ver, period</text>
+      <text class="tlen" x="562" y="412" fill="#b35c00" class="pd">Sensitive Personal</text>
+    </g>
+    <g>
+      <rect x="735" y="300" width="160" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M735,306 a6,6 0 0 1 6,-6 h148 a6,6 0 0 1 6,6 v20 h-160 z" fill="#0a6b2e"/>
+      <text class="ts" x="742" y="319" fill="#ffffff" style="font-weight:700">NotificationLog</text>
+      <text class="tlen" x="742" y="340">notif_id (PK)</text><text class="tlen" x="742" y="360">return_id (FK), channel</text><text class="tlen" x="742" y="380">template, status, sent_at</text>
+      <text class="tlen" x="742" y="412" fill="#0a6b2e" class="pd">PDPA: Personal</text>
+    </g>
+    <g>
+      <rect x="915" y="300" width="80" height="128" rx="6" fill="#ffffff" stroke="#c9ced8"/>
+      <path d="M915,306 a6,6 0 0 1 6,-6 h68 a6,6 0 0 1 6,6 v20 h-80 z" fill="#7a0000"/>
+      <text class="tlen" x="922" y="319" fill="#ffffff" style="font-weight:700">AuditLog</text>
+      <text class="tlen" x="922" y="340">audit_id (PK)</text><text class="tlen" x="922" y="360">actor, action</text><text class="tlen" x="922" y="380">entity, ts (immutable)</text>
+      <text class="tlen" x="922" y="412" fill="#7a0000" class="pd">Confidential</text>
+    </g>
+    <!-- relationships -->
+    <line class="ar" x1="175" y1="116" x2="193" y2="116" marker-end="url(#ah8)"/><text class="tlen" x="176" y="110">1..*</text>
+    <line class="ar" x1="355" y1="116" x2="373" y2="116" marker-end="url(#ah8)"/><text class="tlen" x="356" y="110">1..*</text>
+    <line class="ar" x1="535" y1="116" x2="553" y2="116" marker-end="url(#ah8)"/><text class="tlen" x="536" y="110">1..*</text>
+    <line class="ar" x1="715" y1="116" x2="733" y2="116" marker-end="url(#ah8)"/><text class="tlen" x="716" y="110">1..*</text>
+    <line class="ar" x1="455" y1="180" x2="455" y2="298" marker-end="url(#ah8)"/><text class="tlen" x="459" y="245">1..*</text>
+    <line class="ar" x1="375" y1="200" x2="280" y2="298" marker-end="url(#ah8)"/><text class="tlen" x="300" y="255">1..*</text>
+    <line class="ar" x1="520" y1="180" x2="620" y2="298" marker-end="url(#ah8)"/><text class="tlen" x="600" y="245">1..*</text>
+    <line class="ar" x1="175" y1="150" x2="560" y2="300" marker-end="url(#ah8)"/>
+    <line class="ar" x1="455" y1="180" x2="790" y2="300" marker-end="url(#ah8)"/>
+    <!-- PDPA legend -->
+    <rect x="15" y="452" width="16" height="14" fill="#6b7280"/><text class="tlen" x="38" y="464">Public</text>
+    <rect x="120" y="452" width="16" height="14" fill="#0b3d91"/><text class="tlen" x="143" y="464">Internal</text>
+    <rect x="235" y="452" width="16" height="14" fill="#7a0000"/><text class="tlen" x="258" y="464">Confidential</text>
+    <rect x="370" y="452" width="16" height="14" fill="#0a6b2e"/><text class="tlen" x="393" y="464">Personal</text>
+    <rect x="490" y="452" width="16" height="14" fill="#b35c00"/><text class="tlen" x="513" y="464">Sensitive Personal</text>
+    <text class="legend" x="15" y="494">Cardinality: 1..* -&gt; many. ReturnCase is the aggregate root; every child carries return_id FK. Customer and Order are shared with POS/SAP via TK-Connect reference keys (no direct DB link). PDPA class shown per entity.</text>
+    <text class="legend" x="15" y="516">Personal fields (name, phone, email, photos) are encrypted at rest, masked in logs and dashboards, and controlled by the retention + deletion job (NFR-PRIV-01, NFR-DATA-01). AuditLog is append-only.</text>
+    <text class="conf-lbl" x="990" y="548" text-anchor="end">TK CONFIDENTIAL</text>
+  </svg>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 17 of 25</span></div>
+</section>

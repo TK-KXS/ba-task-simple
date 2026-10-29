@@ -1,0 +1,15 @@
+<!-- ============ 12 ADRs (1) ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>12 &nbsp;Architecture Decision Records (ADRs)</h2>
+  <p>All internal components are TK platform services (no ADR needed). Each <strong>non-TK component</strong> the customer already owns requires an ADR documenting why it is retained and how it is accessed. Every external system is reached <strong>only</strong> through TK-Connect (SAP/POS/payment/marketplace), TK-Notify (SMS/LINE/email) or TK-Auth (AD).</p>
+  <table>
+    <tr><th style="width:13mm">ADR</th><th style="width:34mm">Component / decision</th><th>Context &amp; rationale</th><th style="width:40mm">Consequences / risk</th></tr>
+    <tr><td class="id">ADR-01</td><td><b>SAP ECC 6.0</b> (Finance) - retain; access <b>only</b> via TK-Connect (RFC/BAPI)</td><td>SAP is the customer's finance system of record; refunds must post there. SiamMart explicitly does not want anyone touching SAP directly. TK-Connect provides a controlled adapter with retry, DLQ and reconciliation.</td><td>Adds TK-Connect middleware (build + run cost). Depends on usable RFC (AS-11). <b>Direct RFC from platform is refused even if credentials are offered.</b></td></tr>
+    <tr><td class="id">ADR-02</td><td><b>POS</b> (vendor TBD: RetailPro or in-house) - retain; order lookup via TK-Connect</td><td>Store scan needs order/lines/price data held in POS. Vendor not confirmed (OI-08); adapter built after discovery. Fallback manual order search if lookup fails.</td><td>Integration effort uncertain until OI-08 closed; 2s p95 lookup target (TR-STORE-01).</td></tr>
+    <tr><td class="id">ADR-03</td><td><b>Payment gateway / bank</b> (card + PromptPay) - via TK-Connect</td><td>Refunds to original tender need the acquirer/bank API. Gateway/vendor to be confirmed (AS-16). Card data tokenised; full PAN never stored.</td><td>Per-refund processing fees; gateway change alters integration. Reconcile with SAP (TR-REF-04).</td></tr>
+    <tr><td class="id">ADR-04</td><td><b>LINE OA / Messaging API</b> - intake + notifications via TK-Notify</td><td>K.Somchai accepted LINE OA as the customer self-service channel (AS-05); also a notification channel. TK-Notify brokers it.</td><td>LINE rate limits / template rules; fallback to email on failure.</td></tr>
+  </table>
+  <div class="warn"><strong>Rule enforced in design (warning to customer).</strong> SAP, POS, payment and marketplace traffic flows <strong>only via TK-Connect</strong>. We will <strong>not</strong> implement a direct RFC connection from the application to SAP ECC 6.0, and will decline any SAP credentials offered for direct access — this protects SAP stability, keeps an auditable integration boundary, and is a condition of TK support. Any request to bypass TK-Connect must go through an ADR and a Change Request.</div>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 20 of 25</span></div>
+</section>

@@ -1,0 +1,23 @@
+<!-- ============ 12 ADRs (2) ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 v1.0</span><span class="confidential">TK COMPANY - CONFIDENTIAL</span></div>
+  <h2>12.1 &nbsp;ADRs (continued)</h2>
+  <table>
+    <tr><th style="width:13mm">ADR</th><th style="width:34mm">Component / decision</th><th>Context &amp; rationale</th><th style="width:40mm">Consequences / risk</th></tr>
+    <tr><td class="id">ADR-05</td><td><b>SMS gateway + SMTP email</b> - via TK-Notify</td><td>Customer wants every step notified (SMS/LINE/email). TK-Notify brokers third-party SMS and email with TH/EN templates and a send log.</td><td>SMS cost ~0.35-0.50 THB/msg; at 25k returns x multiple steps x channels it is a recurring, volume-scaling cost (section 14). Retry, then fallback to email.</td></tr>
+    <tr><td class="id">ADR-06</td><td><b>SiamMart Active Directory</b> - SSO via TK-Auth (SAML/LDAP)</td><td>Staff SSO is desired (S-37) but AD availability is unconfirmed (OI-07). If available, TK-Auth federates; otherwise local accounts with MFA.</td><td>No AD = local accounts, weaker SSO. Decided at OI-07.</td></tr>
+    <tr><td class="id">ADR-07</td><td><b>Shopee / Lazada marketplace</b> - <b>deferred to Phase 2</b>; no integration built now</td><td>Customer said "phase 2 maybe" (S-16). Including marketplace returns in Phase 1 expands scope/budget against the 8M envelope (OI-11). Routed OOS-1 / OI-09.</td><td>Marketplace returns handled outside the platform until Phase 2 / CR. Revisit at OI-09.</td></tr>
+    <tr><td class="id">ADR-08</td><td><b>Auto-approval money rule</b> - configurable TK-Flow DMN threshold (not app if/else)</td><td>The &lt;500 THB auto-approve proposal (K.Somchai) conflicts with Finance's "all refunds via finance" (OI-01). Modelled as a configurable DMN rule whose threshold can change - or be set to 0 - without deployment.</td><td>Requires <b>Finance/Audit written sign-off</b> before enabling. Ships OFF; &gt;5,000 manager rule (BRL-003) enforced independently.</td></tr>
+  </table>
+  <div class="note"><strong>Decision summary.</strong> 8 ADRs, all for external/non-TK components or cross-cutting policy. No non-TK product sits inside the trust boundary; all platform containers are TK services. Component / tool list: TK-Gateway, TK-Auth, TK-Flow, TK-Queue, TK-Notify, TK-Storage, TK-Connect, TK-DataLake, TK-Database, TK-Monitor, TK-Vault, TK-Cloud plus the nine <code>tk-smr-*-svc</code> domain services.</div>
+  <h3>12.2 &nbsp;Consequences flagged to the customer</h3>
+  <ul>
+    <li><strong>SAP access:</strong> no direct RFC — only TK-Connect (ADR-01). Credentials offered for direct use will be declined.</li>
+    <li><strong>Marketplace:</strong> Shopee/Lazada returns are Phase 2 (ADR-07); pulling them into Phase 1 needs a CR + budget.</li>
+    <li><strong>SMS cost:</strong> recurring per-message fees scale with 25k returns and the 4-5x peak (ADR-05) — budget explicitly.</li>
+    <li><strong>Photo retention:</strong> item photos retained per NFR-DATA-01/AS-03 (7 yrs, pending OI-06); encrypted, access-logged, auto-purged at retention end.</li>
+    <li><strong>Auto-approval:</strong> Finance/Audit written sign-off required to enable (ADR-08 / OI-01).</li>
+    <li><strong>POS vendor &amp; AD availability</strong> (OI-08, OI-07) gate the exact integration build.</li>
+  </ul>
+  <div class="page-footer"><span class="confidential">TK Company - Confidential - Do not distribute without written consent</span><span>Page 21 of 25</span></div>
+</section>

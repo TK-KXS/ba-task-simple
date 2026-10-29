@@ -1,0 +1,122 @@
+<!-- ============ D2 TO-BE SWIMLANE (landscape) ============ -->
+<section class="page landscape">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <h2 style="margin-bottom:1.5mm">4.2 &nbsp;D2 — To-Be Return &amp; Refund Swimlane (TK platform)</h2>
+  <svg class="dgsvg" viewBox="0 0 1000 560" role="img" aria-label="To-Be return and refund swimlane">
+    <defs><marker id="ah2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#5b6475"/></marker>
+    <marker id="ah2d" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8a5a00"/></marker></defs>
+    <text x="10" y="26" class="tl">To-Be: one platform, TK-Flow DMN routing, idempotent SAP posting, proactive notifications — refund &le;3 business days</text>
+
+    <rect class="lane" x="104" y="46" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="140" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="234" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="328" width="888" height="94" rx="4"/>
+    <rect class="lane" x="104" y="422" width="888" height="86" rx="4"/>
+    <rect class="lanelbl" x="8" y="46" width="92" height="94" rx="4"/><text x="54" y="88" class="tm lbl" text-anchor="middle">Customer</text><text x="54" y="106" class="ts" text-anchor="middle" fill="#5b6475">channel</text>
+    <rect class="lanelbl" x="8" y="140" width="92" height="94" rx="4"/><text x="54" y="182" class="tm lbl" text-anchor="middle">Store</text><text x="54" y="200" class="ts" text-anchor="middle" fill="#5b6475">staff</text>
+    <rect class="lanelbl" x="8" y="234" width="92" height="94" rx="4"/><text x="54" y="281" class="tm lbl" text-anchor="middle">CS /</text><text x="54" y="299" class="tm lbl" text-anchor="middle">Approver</text>
+    <rect class="lanelbl" x="8" y="328" width="92" height="94" rx="4"/><text x="54" y="375" class="tm lbl" text-anchor="middle">Finance</text>
+    <rect class="lanelbl" x="8" y="422" width="92" height="86" rx="4"/><text x="54" y="460" class="tm lbl" text-anchor="middle">TK</text><text x="54" y="478" class="tm lbl" text-anchor="middle">Platform</text>
+
+    <!-- T1 customer -->
+    <rect class="tk" x="112" y="68" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="88" text-anchor="middle">Submit return online</text>
+    <text class="ts" x="188" y="106" text-anchor="middle">(web portal / LINE OA)</text>
+    <!-- T2 store -->
+    <rect class="tk" x="112" y="162" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="182" text-anchor="middle">Scan receipt on tablet →</text>
+    <text class="ts" x="188" y="200" text-anchor="middle">order auto-pulled (POS)</text>
+    <!-- T3 platform -->
+    <rect class="tk" x="112" y="440" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="460" text-anchor="middle">Gateway→return-svc: create</text>
+    <text class="ts" x="188" y="478" text-anchor="middle">case, validate window+photo</text>
+    <!-- T4 platform DMN -->
+    <rect class="tk" x="322" y="440" width="152" height="50" rx="6"/>
+    <text class="ts" x="398" y="460" text-anchor="middle">TK-Flow DMN: &gt;5,000 mgr /</text>
+    <text class="ts" x="398" y="478" text-anchor="middle">&lt;500 auto (cfg) / else CS</text>
+    <!-- T5 CS approve -->
+    <rect class="tk" x="322" y="256" width="152" height="50" rx="6"/>
+    <text class="ts" x="398" y="276" text-anchor="middle">Approve in queue w/ SLA</text>
+    <text class="ts" x="398" y="294" text-anchor="middle">timers + immutable audit</text>
+    <!-- dashboard/fraud callout in CS lane -->
+    <rect class="box2" x="112" y="256" width="152" height="50" rx="6"/>
+    <text class="ts" x="188" y="276" text-anchor="middle">Exec dashboard + fraud</text>
+    <text class="ts" x="188" y="294" text-anchor="middle">flags (configurable)</text>
+    <!-- T7 notify platform -->
+    <rect class="tk" x="532" y="440" width="152" height="50" rx="6"/>
+    <text class="ts" x="608" y="460" text-anchor="middle">TK-Notify: status push</text>
+    <text class="ts" x="608" y="478" text-anchor="middle">each step (SMS/LINE/email)</text>
+    <!-- T8 refund platform -->
+    <rect class="tk" x="742" y="440" width="152" height="50" rx="6"/>
+    <text class="ts" x="818" y="460" text-anchor="middle">refund-svc→SAP via</text>
+    <text class="ts" x="818" y="478" text-anchor="middle">TK-Connect: idempotent+recon</text>
+    <!-- T9 finance ledger -->
+    <rect class="tk" x="532" y="350" width="152" height="50" rx="6"/>
+    <text class="ts" x="608" y="370" text-anchor="middle">Ledger: every refund visible</text>
+    <text class="ts" x="608" y="388" text-anchor="middle">+ daily Excel export</text>
+    <!-- T10 store disposition -->
+    <rect class="tk" x="742" y="162" width="152" height="50" rx="6"/>
+    <text class="ts" x="818" y="182" text-anchor="middle">Disposition per item:</text>
+    <text class="ts" x="818" y="200" text-anchor="middle">restock / supplier / write-off</text>
+    <!-- T11 customer outcome -->
+    <rect class="box" x="832" y="68" width="152" height="50" rx="6"/>
+    <text class="ts" x="908" y="88" text-anchor="middle">Courier-style tracking;</text>
+    <text class="ts" x="908" y="106" text-anchor="middle">refund ≤3 bd (p95)</text>
+
+    <!-- arrows -->
+    <line class="ar" x1="160" y1="118" x2="160" y2="436" marker-end="url(#ah2)"/>
+    <line class="ar" x1="216" y1="212" x2="216" y2="436" marker-end="url(#ah2)"/>
+    <line class="ar" x1="264" y1="465" x2="318" y2="465" marker-end="url(#ah2)"/>
+    <line class="ar" x1="474" y1="465" x2="528" y2="465" marker-end="url(#ah2)"/>
+    <line class="ar" x1="684" y1="465" x2="738" y2="465" marker-end="url(#ah2)"/>
+    <line class="ar" x1="360" y1="440" x2="360" y2="310" marker-end="url(#ah2)"/>
+    <line class="ar" x1="474" y1="281" x2="532" y2="345" marker-end="url(#ah2)"/>
+    <line class="ar" x1="684" y1="375" x2="738" y2="440" marker-end="url(#ah2)"/>
+    <line class="ar" x1="818" y1="440" x2="818" y2="216" marker-end="url(#ah2)"/>
+    <line class="ard" x1="608" y1="440" x2="608" y2="404" marker-end="url(#ah2d)"/>
+    <line class="ard" x1="684" y1="465" x2="832" y2="118" marker-end="url(#ah2d)"/>
+
+    <!-- I badges green -->
+    <circle class="impr" cx="246" cy="83" r="12"/><text class="ptext" x="246" y="88" text-anchor="middle">I1</text>
+    <circle class="impr" cx="246" cy="177" r="12"/><text class="ptext" x="246" y="182" text-anchor="middle">I2</text>
+    <circle class="impr" cx="246" cy="455" r="12"/><text class="ptext" x="246" y="460" text-anchor="middle">I2</text>
+    <circle class="impr" cx="456" cy="455" r="11"/><text class="ptext" x="456" y="460" text-anchor="middle" style="font-size:12px">I3</text>
+    <circle class="impr" cx="430" cy="455" r="11"/><text class="ptext" x="430" y="460" text-anchor="middle" style="font-size:12px">I9</text>
+    <circle class="impr" cx="456" cy="271" r="12"/><text class="ptext" x="456" y="276" text-anchor="middle">I3</text>
+    <circle class="impr" cx="246" cy="271" r="11"/><text class="ptext" x="246" y="276" text-anchor="middle" style="font-size:12px">I8</text>
+    <circle class="impr" cx="220" cy="271" r="11"/><text class="ptext" x="220" y="276" text-anchor="middle" style="font-size:12px">I7</text>
+    <circle class="impr" cx="666" cy="455" r="12"/><text class="ptext" x="666" y="460" text-anchor="middle">I5</text>
+    <circle class="impr" cx="876" cy="455" r="12"/><text class="ptext" x="876" y="460" text-anchor="middle">I4</text>
+    <circle class="impr" cx="666" cy="365" r="12"/><text class="ptext" x="666" y="370" text-anchor="middle">I8</text>
+    <circle class="impr" cx="876" cy="177" r="12"/><text class="ptext" x="876" y="182" text-anchor="middle">I6</text>
+    <circle class="impr" cx="966" cy="83" r="12"/><text class="ptext" x="966" y="88" text-anchor="middle">I5</text>
+
+    <text class="legend" x="10" y="528">Legend: green I# = To-Be improvement (§4) · solid = automated flow · dashed = notification / side-effect · all external calls (POS/SAP/payment/SMS/LINE/email) via TK-Connect / TK-Notify.</text>
+    <text class="conf-lbl" x="990" y="548" text-anchor="end">TK CONFIDENTIAL</text>
+  </svg>
+  <p class="small" style="margin-top:1mm">Note: the customer self-serves or a staff member scans; a single case is created, routed by configurable DMN, approved with an audit row, refunded idempotently to SAP, notified at every step, and every item dispositioned. Finance retains full visibility of every refund.</p>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 9 of 25</span></div>
+</section>
+
+<!-- ============ 5 COMPARISON ============ -->
+<section class="page">
+  <div class="page-header"><span>TK-SA-SMR-ARC-01 · v1.0</span><span class="confidential">TK COMPANY – CONFIDENTIAL</span></div>
+  <h2>5 &nbsp;As-Is vs To-Be Comparison</h2>
+  <table>
+    <tr><th style="width:30mm">Dimension</th><th>As-Is (today)</th><th>To-Be (TK platform)</th></tr>
+    <tr><td>Process steps</td><td>~9 manual steps across 5 actors, two divergent intake routes.</td><td>~8 steps in one flow; single intake model for store &amp; online; exceptions handled by TK-Flow.</td></tr>
+    <tr><td>Handoffs</td><td>5–6 manual handoffs (paper→LINE→HQ→Finance→SAP), each a point of loss.</td><td>0 manual handoffs; systems integrate via TK-Gateway / TK-Queue / TK-Connect.</td></tr>
+    <tr><td>Lead time</td><td><strong>~14 days</strong> avg (10–21), gated by the Friday SAP batch.</td><td><strong>≤ 3 business days (p95)</strong> — continuous, reconciled posting (BR-01).</td></tr>
+    <tr><td>Manual touches</td><td>Re-key at intake, re-key in Excel master, re-key in SAP — 3+ per return.</td><td>Captured once; no re-keying; auto-posted to SAP.</td></tr>
+    <tr><td>Systems touched</td><td>Paper, Excel, LINE (consumer), email, SAP (manual) — 5 disconnected tools.</td><td>One platform + TK-Connect to SAP/POS/payment + TK-Notify channels.</td></tr>
+    <tr><td>Approval &amp; audit</td><td>Informal LINE approval; no approver identity or immutable record.</td><td>Structured TK-Flow DMN; immutable audit of every approval, refund, status &amp; config change.</td></tr>
+    <tr><td>Money controls</td><td>Manual SAP entry; no idempotency; no reconciliation; duplicate risk.</td><td>Idempotency key per refund; daily reconciliation vs SAP; mismatch alerts (BRL-014, TR-REF-04).</td></tr>
+    <tr><td>Customer visibility</td><td>None — customer chases; #1 social complaint (~2,300/qtr).</td><td>Proactive notifications each step + tracking page; complaint baseline to reduce ≥50% (BR-02).</td></tr>
+    <tr><td>Returned goods</td><td>Piles behind store; no decision; value lost.</td><td>Mandatory disposition per item (RESTOCK / RETURN_TO_SUPPLIER / WRITE_OFF) (BR-04).</td></tr>
+    <tr><td>Fraud</td><td>Invisible — no flags.</td><td>Configurable threshold flags serial returners to CS (BR-05).</td></tr>
+    <tr><td>Reporting</td><td>Ad-hoc Excel; no executive view.</td><td>Daily-refresh exec dashboard via TK-DataLake; Excel/PDF export; daily Finance refund report (BR-07).</td></tr>
+    <tr><td>Scalability</td><td>Manual process breaks under 4–5× 11.11/12.12 peak.</td><td>TK-Queue + autoscale sized to 4,200/day peak with 6× headroom (NFR-SCAL-01).</td></tr>
+  </table>
+  <div class="note"><strong>Net effect.</strong> The To-Be removes every manual handoff and re-key, cuts the lead time from ~14 days to ≤3 business days, gives Finance an auditable and reconciled money trail, and turns returned goods and fraud from blind spots into governed flows — all traced to BR-01…BR-08 (§13).</div>
+  <div class="page-footer"><span class="confidential">TK Company – Confidential · Do not distribute without written consent</span><span>Page 10 of 25</span></div>
+</section>
